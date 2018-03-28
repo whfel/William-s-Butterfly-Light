@@ -45,7 +45,7 @@ void loop()
  distance = duration/58.2;
 //Serial.println(distance); // 5 and 13 are min and max values...
  
-  if(distance <= maximumRange || distance >= minimumRange) //This should be if they are greater than minimum range, and less than max range
+  if(distance <= maximumRange && distance >= minimumRange) //This should be if they are greater than minimum range, and less than max range
   { 
      //Serial.println("Sonar triggered"); //This is a good way to test things. To check this, when you are starting your code, open up the serial monitor under tools.
     // write in the defined name for "(sonar fires)" instead of current writing here
