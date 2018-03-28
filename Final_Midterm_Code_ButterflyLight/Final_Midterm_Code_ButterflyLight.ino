@@ -45,28 +45,23 @@ void loop()
  distance = duration/58.2;
 //Serial.println(distance); // 5 and 13 are min and max values...
  
-  if(distance <= maximumRange && distance >= minimumRange) //This should be if they are greater than minimum range, and less than max range
-  { 
-     //Serial.println("Sonar triggered"); //This is a good way to test things. To check this, when you are starting your code, open up the serial monitor under tools.
-    // write in the defined name for "(sonar fires)" instead of current writing here
-  
-    if(open) {
-      digitalWrite(RELAY_PIN, HIGH); //turn light on
-      digitalWrite(RELAY_PIN2, HIGH); //turn light on
-      myservo1.write(90); // rotate servo1 90 degrees
-      myservo2.write(180-90); // To move the opposite of myservo1 I think this should be
-                              // 180 - n where n is the value in myservo1.write. I don't
-                              // know if this will move in the opposite direction though
-                              //THIS WILL ALL BE ABOUT TRIAL AND ERROR
-    }
-    else {
-      digitalWrite(RELAY_PIN, LOW); // turn light off
-      digitalWrite(RELAY_PIN2, LOW); // turn light off
-      myservo1.write(0);
-      myservo2.write(0); 
-    }
-    open = !open;
-  }
-  
+ // AND is represented as && not || (which represents OR)
+ open = (distance <= maximumRange && distance >= minimumRange) 
+ 
+if (open) {
+  digitalWrite(RELAY_PIN, HIGH); //turn light on
+  digitalWrite(RELAY_PIN2, HIGH); //turn light on
+  myservo1.write(90); // rotate servo1 90 degrees
+  myservo2.write(180-90); // To move the opposite of myservo1 I think this should be
+                          // 180 - n where n is the value in myservo1.write. I don't
+                          // know if this will move in the opposite direction though
+                          //THIS WILL ALL BE ABOUT TRIAL AND ERROR
 }
+else {
+  digitalWrite(RELAY_PIN, LOW); // turn light off
+  digitalWrite(RELAY_PIN2, LOW); // turn light off
+  myservo1.write(0);
+  myservo2.write(0); 
+}
+
 
