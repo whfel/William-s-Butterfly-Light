@@ -46,7 +46,7 @@ void loop()
 //Serial.println(distance); // 5 and 13 are min and max values...
  
  // AND is represented as && not || (which represents OR)
- open = (distance <= maximumRange && distance >= minimumRange) 
+ open = (distance <= maximumRange && distance >= minimumRange);
  
   if (open) {
     digitalWrite(RELAY_PIN, HIGH); //turn light on
