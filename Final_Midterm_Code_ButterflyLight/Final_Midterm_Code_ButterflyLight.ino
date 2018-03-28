@@ -48,20 +48,21 @@ void loop()
  // AND is represented as && not || (which represents OR)
  open = (distance <= maximumRange && distance >= minimumRange) 
  
-if (open) {
-  digitalWrite(RELAY_PIN, HIGH); //turn light on
-  digitalWrite(RELAY_PIN2, HIGH); //turn light on
-  myservo1.write(90); // rotate servo1 90 degrees
-  myservo2.write(180-90); // To move the opposite of myservo1 I think this should be
-                          // 180 - n where n is the value in myservo1.write. I don't
-                          // know if this will move in the opposite direction though
-                          //THIS WILL ALL BE ABOUT TRIAL AND ERROR
-}
-else {
-  digitalWrite(RELAY_PIN, LOW); // turn light off
-  digitalWrite(RELAY_PIN2, LOW); // turn light off
-  myservo1.write(0);
-  myservo2.write(0); 
+  if (open) {
+    digitalWrite(RELAY_PIN, HIGH); //turn light on
+    digitalWrite(RELAY_PIN2, HIGH); //turn light on
+    myservo1.write(90); // rotate servo1 90 degrees
+    myservo2.write(180-90); // To move the opposite of myservo1 I think this should be
+                            // 180 - n where n is the value in myservo1.write. I don't
+                            // know if this will move in the opposite direction though
+                            //THIS WILL ALL BE ABOUT TRIAL AND ERROR
+  }
+  else {
+    digitalWrite(RELAY_PIN, LOW); // turn light off
+    digitalWrite(RELAY_PIN2, LOW); // turn light off
+    myservo1.write(0);
+    myservo2.write(0); 
+  }
 }
 
 
