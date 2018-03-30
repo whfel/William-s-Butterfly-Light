@@ -14,6 +14,7 @@ Servo myservo2;
 int maximumRange = 13; // Maximum range needed
 int minimumRange = 5; // Minimum range needed
 long duration, distance; // Duration used to calculate distance
+int servoPosition;
 
 
 void setup()
@@ -26,43 +27,47 @@ void setup()
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   //Serial.begin(9600);
-  
+  servoPosition = 0;
 }
 
 void loop()
 {
-  /* The following trigPin/echoPin cycle is used to determine the
- distance of the nearest object by bouncing soundwaves off of it. */ 
- digitalWrite(trigPin, LOW); 
- delayMicroseconds(2); 
-
- digitalWrite(trigPin, HIGH);
- delayMicroseconds(10); 
- 
- digitalWrite(trigPin, LOW);
- duration = pulseIn(echoPin, HIGH);
- //Calculate the distance (in cm) based on the speed of sound.
- distance = duration/58.2;
-//Serial.println(distance); // 5 and 13 are min and max values...
- 
- // AND is represented as && not || (which represents OR)
- open = (distance <= maximumRange && distance >= minimumRange);
- 
-  if (open) {
-    digitalWrite(RELAY_PIN, HIGH); //turn light on
-    digitalWrite(RELAY_PIN2, HIGH); //turn light on
-    myservo1.write(90); // rotate servo1 90 degrees
-    myservo2.write(180-90); // To move the opposite of myservo1 I think this should be
-                            // 180 - n where n is the value in myservo1.write. I don't
-                            // know if this will move in the opposite direction though
-                            //THIS WILL ALL BE ABOUT TRIAL AND ERROR
-  }
-  else {
-    digitalWrite(RELAY_PIN, LOW); // turn light off
-    digitalWrite(RELAY_PIN2, LOW); // turn light off
-    myservo1.write(0);
-    myservo2.write(0); 
+  // Make a change to the wingspan only every 50 milliseconds (1/20th of a second)
+  if (millis() % 50 == 0) {
+        /* The following trigPin/echoPin cycle is used to determine the
+     distance of the nearest object by bouncing soundwaves off of it. */ 
+     digitalWrite(trigPin, LOW); 
+     delayMicroseconds(2); 
+    
+     digitalWrite(trigPin, HIGH);
+     delayMicroseconds(10); 
+     
+     digitalWrite(trigPin, LOW);
+     duration = pulseIn(echoPin, HIGH);
+     //Calculate the distance (in cm) based on the speed of sound.
+     distance = duration/58.2;
+     
+     // AND is represented as && not || (which represents OR)
+     open = (distance <= maximumRange && distance >= minimumRange);
+   
+    if (open) {
+      digitalWrite(RELAY_PIN, HIGH); //turn light on
+      digitalWrite(RELAY_PIN2, HIGH); //turn light on
+      if (servoPosition < 90) {
+        servoPosition += 1;
+      }
+    }
+    else {
+      digitalWrite(RELAY_PIN, LOW); // turn light off
+      digitalWrite(RELAY_PIN2, LOW); // turn light off
+      
+      if (servoPosition > 0) {
+        servoPosition -= 1;
+      }
+    }
+    
+    myservo1.write(servoPosition); // servo to position
+    myservo2.write(180-servoPosition); // opposite of other servo position
   }
 }
-
 
